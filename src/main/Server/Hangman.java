@@ -5,18 +5,20 @@ public class Hangman {
 	private ServerSideInfo serverSideInfo;
 	private String chosenWord;
 	private String clientGuess;
-	private String letterNotExist = "Letter does not exist";
-	private String youLost = "You lost!!!";
-	private String gameOver = "Game over!";
-	private String letterAlreadyGuessed = "Letter has already been guessed.";
-	private String emptyMessage = "Click on a letter first!";
-	private String tryAgain = "Try another one!";
-	private String youWin = "You win!!!";
-	private String gameWon = "Game won!";
-	private String correctLetter = "Letter correct!";
-	private String keepGuessing = "Keep guessing";
 	private Server2Client server2Client;
-
+	public enum gameMessages {
+	letterNotExist = "Letter does not exist";
+	 youLost = "You lost!!!";
+	 gameOver = "Game over!";
+	letterAlreadyGuessed = "Letter has already been guessed.";
+	emptyMessage = "Click on a letter first!";
+	tryAgain = "Try another one!";
+	 youWin = "You win!!!";
+	 gameWon = "Game won!";
+	 correctLetter = "Letter correct!";
+	 keepGuessing = "Keep guessing";
+	}
+//make classes not void + enum of string here
 	public Hangman(String chosenWord, ServerSideInfo serverSideInfo, Client2Server client2Server,
 			Server2Client server2Client) {
 		this.serverSideInfo = serverSideInfo;
@@ -26,7 +28,7 @@ public class Hangman {
 
 	}
 
-	public Server2Client calculate() {
+	private Server2Client calculate() {
 
 		if (clientGuess.isEmpty()) {
 			calculateEmptyMessage();
@@ -36,12 +38,12 @@ public class Hangman {
 		return new Server2Client(server2Client);
 	}
 
-	public void calculateEmptyMessage() {
+	private void calculateEmptyMessage() {
 		server2Client.message = "";
 		serverSideInfo.info = emptyMessage;
 	}
 
-	public Server2Client calculateLetter() {
+	private Server2Client calculateLetter() {
 		if (chosenWord.indexOf(clientGuess) == -1) {
 			calculateLetterNotPresent();
 
@@ -55,7 +57,7 @@ public class Hangman {
 		return server2Client;
 	}
 
-	public void calculateLetterNotPresent() {
+	private void calculateLetterNotPresent() {
 		server2Client.message = letterNotExist;
 		server2Client.failAttempts--;
 		serverSideInfo.info = String.valueOf(server2Client.failAttempts) + " attempts are left!";
@@ -70,12 +72,12 @@ public class Hangman {
 
 	}
 
-	public void calculateletterAlreadyPresent() {
+	private void calculateletterAlreadyPresent() {
 		server2Client.message = letterAlreadyGuessed;
 		serverSideInfo.info = tryAgain;
 	}
 
-	public void calculateLetterPresent() {
+	private void calculateLetterPresent() {
 		char[] c = new char[clientGuess.length()];
 		c = clientGuess.toCharArray();
 		for (int i = 0; i < chosenWord.length(); i++) {
@@ -93,7 +95,7 @@ public class Hangman {
 		}
 	}
 
-	public void calculateWordCorrect() {
+	private void calculateWordCorrect() {
 		server2Client.word = chosenWord;
 		server2Client.message = youWin;
 		serverSideInfo.info = gameWon;
@@ -101,7 +103,7 @@ public class Hangman {
 		serverSideInfo.games++;
 	}
 
-	public void calculateLetterCorrect() {
+	private void calculateLetterCorrect() {
 		server2Client.message = correctLetter;
 		serverSideInfo.info = keepGuessing;
 	}

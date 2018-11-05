@@ -64,7 +64,7 @@ class ServerHandler extends Thread implements Serializable {
 
 			if (server2Client.getState() == Server2Client.State.START) {
 
-				hashMap = stateClass.serverStartState(response, serverSideInfo, server2Client);
+				hashMap = stateClass.serverStartState(serverSideInfo, server2Client);
 
 			}
 
